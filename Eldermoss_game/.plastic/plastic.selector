@@ -1,0 +1,4 @@
+repository "Eldermoss_game/Eldermoss_game@5773924128961@cloud"
+  path "/"
+    br "/main"
+    co "/main"
