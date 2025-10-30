@@ -13,6 +13,22 @@ public class TestPlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded = false;
 
+    // Persistent player instance
+    private static TestPlayerController instance;
+
+    void Awake()
+    {
+        // Singleton pattern to keep only one player alive
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject); // Destroy duplicates
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject); // Keep player across scenes
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
