@@ -14,11 +14,11 @@ public class MainManuEvents : MonoBehaviour
 
     private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>(); 
+        _audioSource = GetComponent<AudioSource>();
 
         _document = GetComponent<UIDocument>();
-        _button = _document.rootVisualElement.Q("StartGameButton") as Button;
-        _button.RegisterCallbackOnce<ClickEvent>(OnPlayGameClick);
+        //_button = _document.rootVisualElement.Q("StartGameButton") as Button;
+        //_button.RegisterCallbackOnce<ClickEvent>(OnPlayGameClick);
 
         _menuButtons = _document.rootVisualElement.Query<Button>().ToList();
 
@@ -30,7 +30,7 @@ public class MainManuEvents : MonoBehaviour
 
     private void OnDnable()
     {
-        _button.UnregisterCallback<ClickEvent>(OnPlayGameClick);
+        //_button.UnregisterCallback<ClickEvent>(OnPlayGameClick);
 
         for (int i = 1; i < _menuButtons.Count; i++)
         {
@@ -43,18 +43,17 @@ public class MainManuEvents : MonoBehaviour
 
     private void OnAllButtonsClick(ClickEvent evt)
     {
-        Debug.Log("Button Clicked");
-    }
+        Debug.Log("Button Clicked: " + (evt.currentTarget as Button)?.name);
 
-    private void OnPlayGameClick(ClickEvent evt)
-    {
+        // **VIKTIG ENDRING:** Spill lyden her!
         if (_audioSource != null)
         {
             _audioSource.Play();
         }
-        else
-        {
-            Debug.LogWarning("AudioSource component is missing!");
-        }
     }
+
+    //private void OnPlayGameClick(ClickEvent evt)
+    //{
+    //    _audioSource.Play();
+    //}
 }
