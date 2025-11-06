@@ -1,8 +1,9 @@
 .header {
     -unity-text-align: upper-center;
     font-size: 40px;
-    -unity-font-style: bold;
+    -unity-font-style: bold-and-italic;
     -unity-font-definition: url("project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=600f229b5110cb643add584b9ad344ff&type=3#NotInter-Regular");
+    color: rgb(255, 255, 255);
 }
 
 .button {
