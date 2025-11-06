@@ -4,5 +4,7 @@
         <ui:Label text="Eldermoss" selectable="true" name="Header" class="header" />
         <ui:Button text="Play&#10;" name="StartGameButton" class="button" />
         <ui:Button text="Setting" name="Settings" class="button" style="white-space: pre-wrap;" />
+        <ui:Button text="Achievement" name="Achievment" class="button" />
+        <ui:Button text="Quit Game" name="Quit" class="button" />
     </ui:VisualElement>
 </ui:UXML>
