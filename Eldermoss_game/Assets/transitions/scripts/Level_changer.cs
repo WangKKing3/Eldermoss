@@ -16,7 +16,7 @@ public class Level_changer : MonoBehaviour
     {
         if (_Connections == Level_connections.ActiveConnection)
         {
-            FindObjectOfType<TestPlayerController>().transform.position = _spawn_point.position;
+            FindFirstObjectByType<TestPlayerController>().transform.position = _spawn_point.position;
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
