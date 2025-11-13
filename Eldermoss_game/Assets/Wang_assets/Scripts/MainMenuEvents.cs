@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 
 public class MainManuEvents : MonoBehaviour
@@ -12,13 +13,14 @@ public class MainManuEvents : MonoBehaviour
 
     private AudioSource _audioSource;
 
+    private const string StartGameButtonName = "StartGameButton";
+
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
 
         _document = GetComponent<UIDocument>();
-        //_button = _document.rootVisualElement.Q("StartGameButton") as Button;
-        //_button.RegisterCallbackOnce<ClickEvent>(OnPlayGameClick);
+      
 
         _menuButtons = _document.rootVisualElement.Query<Button>().ToList();
 
@@ -26,6 +28,7 @@ public class MainManuEvents : MonoBehaviour
         {
             _menuButtons[i].RegisterCallback<ClickEvent>(OnAllButtonsClick);
         }
+
     }
 
     private void OnDnable()
@@ -49,7 +52,21 @@ public class MainManuEvents : MonoBehaviour
         if (_audioSource != null)
         {
             _audioSource.Play();
+
         }
+
+        string clickedButtonName = (evt.currentTarget as Button)?.name;
+
+        Debug.Log ("Clicked Button Name: " + clickedButtonName);
+
+        if (clickedButtonName == StartGameButtonName)
+        {
+            // VIKTIG: Last inn scenen "Test". Sørg for at "Test" er lagt til i Build Settings!
+            SceneManager.LoadScene("Test");
+        }
+
+
+
     }
 
     //private void OnPlayGameClick(ClickEvent evt)
