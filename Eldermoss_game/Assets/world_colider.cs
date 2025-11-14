@@ -24,6 +24,7 @@ public class TilemapInteraction : MonoBehaviour
 
             if (propertyTile != null)
             {
+                Debug.Log("Touching tile: " + propertyTile.name);
                 // Check the Hazard property
                 if (propertyTile.Hazard)
                 {
