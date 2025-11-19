@@ -6,6 +6,8 @@ public class PlayerHealth : MonoBehaviour
 {
     public int health;
     public int maxHealth = 6;
+    public SpriteRenderer playerSr;
+    public HeroScripts heroScripts;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,7 +22,8 @@ public class PlayerHealth : MonoBehaviour
         health -= amount;
         if (health <= 0)
         {
-            Destroy(gameObject);
+            playerSr.enabled = false;
+            heroScripts.enabled = false;
         }
     }
 
