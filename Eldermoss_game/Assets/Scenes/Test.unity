@@ -387,8 +387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf1e1bf0918afc45a9eb9c66eda306f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 4
-  maxHealth: 0
+  health: 6
+  maxHealth: 6
   emptyHeart: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   fullHeart: {fileID: 21300000, guid: 05f67270eed774d458305d46c391fd99, type: 3}
   hearts:
@@ -398,6 +398,7 @@ MonoBehaviour:
   - {fileID: 1030941012}
   - {fileID: 2061614714}
   - {fileID: 166715986}
+  playerHealth: {fileID: 237573095}
 --- !u!114 &237573095
 MonoBehaviour:
   m_ObjectHideFlags: 0

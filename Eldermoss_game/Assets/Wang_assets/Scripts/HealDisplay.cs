@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class HealDisplay : MonoBehaviour
-{   
+{
 
     public int health;
     public int maxHealth;
@@ -13,7 +13,7 @@ public class HealDisplay : MonoBehaviour
     public Sprite fullHeart;
     public Image[] hearts;
 
-    //public PlayerHealth playerHealth;
+    public PlayerHealth playerHealth;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,11 +24,12 @@ public class HealDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //health = playerHealthhealth.health;
-        //maxHealth = playerHealth.maxHealth;
+       
 
         for (int i = 0; i < hearts.Length; i++)
         {
+           health = playerHealth.health;
+           maxHealth = playerHealth.maxHealth;
 
             if (i < health)
             {
