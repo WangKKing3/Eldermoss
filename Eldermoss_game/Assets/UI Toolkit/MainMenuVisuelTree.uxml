@@ -1,10 +1,24 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/MainMenuStyle.uss?fileID=7433441132597879392&amp;guid=1849159005a2f5c4bac1e462a36b3c06&amp;type=3#MainMenuStyle" />
-    <ui:VisualElement name="Container" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Wang_assets/Custom/Background_temp.png?fileID=2800000&amp;guid=a88487c2a2d4bac4d899e4df9f2de3bc&amp;type=3#Background_temp&quot;); -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=600f229b5110cb643add584b9ad344ff&amp;type=3#NotInter-Regular&quot;);">
+    
+    <ui:VisualElement
+        name="mouse-parallax-backgound"
+        style="flex-grow: 1; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-image: url(&quot;project://database/Assets/Wang_assets/Custom/Background_temp.png?fileID=2800000&amp;guid=a88487c2a2d4bac4d899e4df9f2de3bc&amp;type=3#Background_temp&quot;);"
+    />
+    <ui:VisualElement name="Container" style="flex-grow: 1; -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=600f229b5110cb643add584b9ad344ff&amp;type=3#NotInter-Regular&quot;);">
         <ui:Label text="Eldermoss" selectable="true" name="Header" class="header" />
         <ui:Button text="Play" name="StartGameButton" parse-escape-sequences="true" class="button" />
         <ui:Button text="Setting" name="Settings" class="button" style="white-space: pre-wrap;" />
         <ui:Button text="Achievement" name="Achievment" class="button" />
         <ui:Button text="Quit Game" name="Quit" class="button" />
     </ui:VisualElement>
+
+<!-- 
+    <ui:VisualElement name="Container" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Wang_assets/Custom/Background_temp.png?fileID=2800000&amp;guid=a88487c2a2d4bac4d899e4df9f2de3bc&amp;type=3#Background_temp&quot;); -unity-font-definition: url(&quot;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=600f229b5110cb643add584b9ad344ff&amp;type=3#NotInter-Regular&quot;);">
+        <ui:Label text="Eldermoss" selectable="true" name="Header" class="header" />
+        <ui:Button text="Play" name="StartGameButton" parse-escape-sequences="true" class="button" />
+        <ui:Button text="Setting" name="Settings" class="button" style="white-space: pre-wrap;" />
+        <ui:Button text="Achievement" name="Achievment" class="button" />
+        <ui:Button text="Quit Game" name="Quit" class="button" />
+    </ui:VisualElement> -->
 </ui:UXML>
