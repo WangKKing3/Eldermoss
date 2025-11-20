@@ -787,13 +787,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   jumpSpeed: 8.3
-  jumpStepsMax: 12
+  jumpStepsMax: 5
   minJumpSpeed: 5
   maxFallSpeed: 25
   coyoteTime: 0.15
   jumpBufferTime: 0.1
-  selfRecoilForce: 0.5
-  enemyKnockbackForce: 0.3
+  selfRecoilForce: 2.5
+  enemyKnockbackForce: 1.3
   recoilDuration: 0.15
   attackRange: 0.33
   attackPosition: {fileID: 875843950}
