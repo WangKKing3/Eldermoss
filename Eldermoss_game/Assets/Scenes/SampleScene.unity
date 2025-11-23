@@ -799,7 +799,7 @@ MonoBehaviour:
   attackPosition: {fileID: 875843950}
   attackLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
 --- !u!212 &594467545
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -961,7 +961,7 @@ MonoBehaviour:
   checkerSize: {x: 0.2, y: 0.04}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
 --- !u!95 &594467550
 Animator:
   serializedVersion: 7
