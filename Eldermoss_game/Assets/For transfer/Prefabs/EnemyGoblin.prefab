@@ -235,7 +235,7 @@ MonoBehaviour:
   detectBoxSize: {x: 0.18, y: 0.39}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   attackCooldown: 1
   moveSpeed: 3
 --- !u!114 &7171952606172378950
