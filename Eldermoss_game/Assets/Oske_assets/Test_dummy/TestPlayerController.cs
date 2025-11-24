@@ -106,7 +106,7 @@ public class TestPlayerController : MonoBehaviour
     // Coroutine to temporarily disable collision with the Tilemap
     IEnumerator DisablePlatformCollision()
     {
-        TilemapInteraction interactionScript = GetComponent<TilemapInteraction>();
+        Final_checker interactionScript = GetComponent<Final_checker>();
         
         if (interactionScript != null && interactionScript.collisionTilemap != null)
         {

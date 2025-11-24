@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8058608900553343059}
   - component: {fileID: 8633195390657693608}
   - component: {fileID: 6400907552210538192}
-  - component: {fileID: 2520834888209368819}
+  - component: {fileID: -5736352124201075449}
   m_Layer: 0
   m_Name: Test_dummy
   m_TagString: Player
@@ -182,7 +182,7 @@ MonoBehaviour:
   lowJumpMultiplier: 2
   wallSlideSpeed: -2
   disableCollisionTime: 0.3
---- !u!114 &2520834888209368819
+--- !u!114 &-5736352124201075449
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,7 +191,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8916795388451882750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c5babf0c50778343bb101a437c2aa98, type: 3}
+  m_Script: {fileID: 11500000, guid: 7936f916935b1fe47ac0a91b957fcdc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   collisionTilemap: {fileID: 0}
+  respawnPoint: {x: 0, y: 0, z: 0}
+  player: {fileID: 0}
