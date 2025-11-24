@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -41,16 +42,28 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: 1sky
+  - name: 1
     uniqueID: 336359365
     locked: 0
-  - name: 2cloud
+  - name: 2
     uniqueID: 3457536715
     locked: 0
-  - name: '3background '
+  - name: 3
+    uniqueID: 205624669
+    locked: 0
+  - name: 'player '
+    uniqueID: 1902711843
+    locked: 0
+  - name: 4
     uniqueID: 1185778715
     locked: 0
-  - name: '4Forground '
+  - name: 5
+    uniqueID: 1942294329
+    locked: 0
+  - name: 6
+    uniqueID: 4212217933
+    locked: 0
+  - name: 7
     uniqueID: 1364634021
     locked: 0
   m_RenderingLayers:

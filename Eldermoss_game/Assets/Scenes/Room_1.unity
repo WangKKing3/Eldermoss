@@ -215,7 +215,7 @@ Transform:
   m_GameObject: {fileID: 1387192457}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.7, y: -0.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15745,7 +15745,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.41343293, g: 0.654088, b: 0.41503218, a: 1}
   m_Origin: {x: -16, y: -15, z: 0}
   m_Size: {x: 73, y: 28, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -25425,7 +25425,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.20149669, g: 0.23899364, b: 0.19916135, a: 1}
   m_Origin: {x: -25, y: -73, z: 0}
   m_Size: {x: 534, y: 192, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -25872,7 +25872,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.04841576, g: 0.3018868, b: 0.0776195, a: 1}
   m_Origin: {x: 0, y: -12, z: 0}
   m_Size: {x: 46, y: 12, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -30737,6 +30737,18 @@ PrefabInstance:
     - target: {fileID: 5893539416685515504, guid: ee3b1bdc0b9d8ff438d42e9237bbe01e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7211756286791602356, guid: ee3b1bdc0b9d8ff438d42e9237bbe01e, type: 3}
+      propertyPath: m_Color.b
+      value: 0.40784317
+      objectReference: {fileID: 0}
+    - target: {fileID: 7211756286791602356, guid: ee3b1bdc0b9d8ff438d42e9237bbe01e, type: 3}
+      propertyPath: m_Color.g
+      value: 0.40784317
+      objectReference: {fileID: 0}
+    - target: {fileID: 7211756286791602356, guid: ee3b1bdc0b9d8ff438d42e9237bbe01e, type: 3}
+      propertyPath: m_Color.r
+      value: 0.40784317
       objectReference: {fileID: 0}
     - target: {fileID: 8661951251657847637, guid: ee3b1bdc0b9d8ff438d42e9237bbe01e, type: 3}
       propertyPath: _Connections
