@@ -13,8 +13,6 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         health = maxHealth;
-
-
     }
 
     public void TakeDamage(int amount)

@@ -6,32 +6,31 @@ using UnityEngine.UI;
 public class HealDisplay : MonoBehaviour
 {
 
-    public int health;
-    public int maxHealth;
 
+    [Header("UI References")]
     public Sprite emptyHeart;
     public Sprite fullHeart;
     public Image[] hearts;
 
-    public PlayerHealth playerHealth;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [Header("Player Reference")]
+    public Health playerHealth;
+
 
     // Update is called once per frame
     void Update()
     {
-       
+
+
+        if (playerHealth == null) return;
+
+      
+        int currentHealth = playerHealth.CurrentLives;
+        int maxHealth = playerHealth.MaxLives;
 
         for (int i = 0; i < hearts.Length; i++)
         {
-           health = playerHealth.health;
-           maxHealth = playerHealth.maxHealth;
-
-            if (i < health)
+            if (i < currentHealth)
             {
                 hearts[i].sprite = fullHeart;
             }

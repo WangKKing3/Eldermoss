@@ -3,10 +3,21 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private int lives;
+    [Header("Health Settings")]
+    [SerializeField] private int maxLives = 6; // Max liv
+    [SerializeField] private int lives;        // now liv
+
+    public int CurrentLives => lives;  
+    public int MaxLives => maxLives;
 
     public event Action OnDead;
     public event Action OnHurt;
+
+    void Start()
+    {
+        lives = maxLives;
+    }
+
     public void TakeDamage()
     {
         lives--;
@@ -26,14 +37,7 @@ public class Health : MonoBehaviour
             OnHurt?.Invoke();
         }
     }
-    void Start()
-    {
-        
-    }
+    
 
 
-    void Update()
-    {
-        
-    }
 }
