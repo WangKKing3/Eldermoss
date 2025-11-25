@@ -971,7 +971,7 @@ MonoBehaviour:
   - {fileID: 1559471530}
   - {fileID: 1241015103}
   - {fileID: 1773994850}
-  playerHealth: {fileID: 0}
+  playerHealth: {fileID: 594467552}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
