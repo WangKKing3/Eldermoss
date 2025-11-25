@@ -9,7 +9,9 @@ public class InputManager
 
     public event Action OnJump;
     public event Action OnAttack;
+    public event Action OnAttack2;
     public event Action OnJumpUp;
+    
 
     public InputManager()
     {
@@ -18,6 +20,7 @@ public class InputManager
 
         playerControls.Gameplay.Jump.performed += OnJumpPerformed;
         playerControls.Gameplay.Attack.performed += OnAttackPerformed;
+        playerControls.Gameplay.Attack2.performed += OnAttack2Performed;
         playerControls.Gameplay.Jump.canceled += OnJumpCanceled;
     }
     private void OnJumpPerformed(InputAction.CallbackContext context)
@@ -33,6 +36,10 @@ public class InputManager
     private void OnAttackPerformed(InputAction.CallbackContext obj)
     {
         OnAttack?.Invoke();
+    }
+    private void OnAttack2Performed(InputAction.CallbackContext obj)
+    {
+        OnAttack2?.Invoke();
     }
 
     public void DisablePlayerInput()

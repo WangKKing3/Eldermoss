@@ -6,7 +6,7 @@ public class PlayerBehaviour : MonoBehaviour
 {
     [Header("Movement Stats")]
     [SerializeField] private float moveSpeed = 10f;
-    //[SerializeField] private float jumpForce = 16f;
+   // [SerializeField] private float jumpForce = 16f;
     //[SerializeField] private float acceleration = 50f;
 
     [Header("Jump System")]
@@ -72,6 +72,13 @@ public class PlayerBehaviour : MonoBehaviour
         {
             coyoteTimeCounter = coyoteTime;
             isJumping = false; // Reseta estado ao tocar no chão
+
+            if (rigidbody.linearVelocity.y < -0.01f)
+            {
+                // Note que o FixedUpdate pode estar agindo na mesma velocidade,
+                // mas é seguro zerar aqui para garantir o ponto de partida 0.
+                rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, 0f);
+            }
         }
         else
         {
@@ -104,7 +111,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         // 1. Movimento Horizontal Instantâneo
         float targetSpeed = moveDirection * moveSpeed;
-        float currentVerticalSpeed = rigidbody.velocity.y;
+        float currentVerticalSpeed = rigidbody.linearVelocity.y;
 
         // 2. Lógica de Pulo por Passos (Frame a Frame)
         if (isJumping)
@@ -130,20 +137,22 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         // Aplica a velocidade final
-        rigidbody.velocity = new Vector2(targetSpeed, currentVerticalSpeed);
+        rigidbody.linearVelocity = new Vector2(targetSpeed, currentVerticalSpeed);
     }
 
     private void StartJump()
     {   
+        if (isJumping) return;
+
         GameManager.Instance.AudioManager.PlaySFX(SFX.PlayerJump);
         
-        if (isGroundedChecker.IsGrounded() == false) return;
+        //if (isGroundedChecker.IsGrounded() == false) return;
 
         isJumping = true;
         jumpSteps = jumpStepsMax; // Recarrega os passos
         
         // Impulso inicial
-        rigidbody.velocity = new Vector2(rigidbody.velocity.x, jumpSpeed);
+        rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, jumpSpeed);
 
         // Reseta timers para não pular duas vezes
         jumpBufferCounter = 0f;
@@ -156,7 +165,10 @@ public class PlayerBehaviour : MonoBehaviour
         //GameManager.Instance.AudioManager.PlaySFX(SFX.PlayerJump);
         //rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         //rigidbody.linearVelocity += Vector2.up * jumpForce;
-        jumpBufferCounter = jumpBufferTime;
+        if (isGroundedChecker.IsGrounded() || coyoteTimeCounter > 0f)
+            {
+                jumpBufferCounter = jumpBufferTime;
+            }
     }
 
     private void HandleJumpUpInput()
@@ -165,9 +177,9 @@ public class PlayerBehaviour : MonoBehaviour
         isJumping = false;
         
         // Se ainda estiver subindo muito rápido, corta a velocidade (Pulo Curto)
-        if (rigidbody.velocity.y > minJumpSpeed)
+        if (rigidbody.linearVelocity.y > minJumpSpeed)
         {
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, minJumpSpeed);
+            rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, minJumpSpeed);
         }
     }
 
