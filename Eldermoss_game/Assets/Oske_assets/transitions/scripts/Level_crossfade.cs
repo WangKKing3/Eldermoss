@@ -6,10 +6,11 @@ public class Level_crossfade : MonoBehaviour
 {
     public CanvasGroup Fade_canvas_group;
     public float fade_time = 1f;
+    public static Level_crossfade instance;
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+           
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

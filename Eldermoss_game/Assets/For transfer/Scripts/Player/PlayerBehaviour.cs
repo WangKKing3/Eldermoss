@@ -34,12 +34,21 @@ public class PlayerBehaviour : MonoBehaviour
     private Health health;
 
     private float moveDirection;
+    public bool is_touching_wall;
+    public bool isGrounded;
+
 
     private bool isJumping;
     private int jumpSteps;
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
     private float recoilTimer;
+    public static PlayerBehaviour instance;
+    private Vector3 CurrentRespawnPoint;
+
+    [Header("Respawn Point")]
+    [SerializeField] private int HazardDamage = 2;
+
 
     private void Awake()
     {
@@ -47,18 +56,47 @@ public class PlayerBehaviour : MonoBehaviour
         isGroundedChecker = GetComponent<IsGroundedChecker>();
         rigidbody.gravityScale = 3f;
         rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-
-
+        
         health = GetComponent<Health>();
         health.OnDead += HandlePlayerDeath;
         health.OnHurt += PlayerHurtSound;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Start()
     {
-        GameManager.Instance.InputManager.OnJump += HandleJump;
-        GameManager.Instance.InputManager.OnJumpUp += HandleJumpUpInput; // Pulo variável
-        GameManager.Instance.InputManager.OnAttack += Attack;
+        CurrentRespawnPoint = transform.position;
+        if (GameManager.Instance == null)
+        {
+            GameManager.Instance.InputManager.OnJump += HandleJump;
+            GameManager.Instance.InputManager.OnJumpUp += HandleJumpUpInput; // Pulo variável
+            GameManager.Instance.InputManager.OnAttack += Attack;
+        }
+    }
+
+    public void SetRespawnPoint(Vector3 newRespawnPoint)
+    {
+        CurrentRespawnPoint = newRespawnPoint;
+    }
+
+    public void RespawnFromHazard()
+    {
+        if (health != null)
+        {
+            health.TakeDamage(HazardDamage);
+        }
+
+        rigidbody.linearVelocity = Vector2.zero;
+
+        transform.position = CurrentRespawnPoint;
     }
 
     private void Update()

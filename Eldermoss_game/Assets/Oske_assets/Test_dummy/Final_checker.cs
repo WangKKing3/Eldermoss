@@ -9,7 +9,7 @@ public class Final_checker : MonoBehaviour
     public Tilemap collisionTilemap;
 
     // Change this to 'PlayerBehaviour' if your dummy uses the new script!
-    private TestPlayerController player; 
+    private PlayerBehaviour player; 
     
     private bool is_touching_wall = false;
     private Rigidbody2D rb;
@@ -26,7 +26,7 @@ public class Final_checker : MonoBehaviour
     void Awake()
     {
         // Make sure this matches the script on your dummy!
-        player = GetComponent<TestPlayerController>();
+        player = GetComponent<PlayerBehaviour>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -88,7 +88,7 @@ public class Final_checker : MonoBehaviour
 
             if (tile_prop != null)
             {
-                if (tile_prop.Wall && !player.IsGrounded)
+                if (tile_prop.Wall && !player.isGrounded)
                 {
                     float normal_angle = Vector2.Angle(contact.normal, Vector2.up);
                     if (normal_angle > 45f) is_touching_wall = true;
@@ -96,8 +96,10 @@ public class Final_checker : MonoBehaviour
                 
                 if (tile_prop.Hazard)
                 {
+                    player.RespawnFromHazard();
                     // Hazard logic here
                     Debug.Log("Hazard Hit!");
+                    return;
                 }
             }
         }

@@ -7,9 +7,9 @@ public class Health : MonoBehaviour
 
     public event Action OnDead;
     public event Action OnHurt;
-    public void TakeDamage()
+    public void TakeDamage(int damage = 1)
     {
-        lives--;
+        lives-= damage;
         HandleDamageTaken();
     }
 
