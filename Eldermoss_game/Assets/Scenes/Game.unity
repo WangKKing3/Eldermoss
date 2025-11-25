@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
   - component: {fileID: 519420030}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -697,7 +697,7 @@ GameObject:
   - component: {fileID: 594467551}
   - component: {fileID: 594467552}
   - component: {fileID: 594467553}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1282,7 +1282,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 875843950}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: attackPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1313,7 +1313,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 881108237}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: groundCheckerPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
