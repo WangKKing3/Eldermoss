@@ -34,8 +34,8 @@ public class PlayerBehaviour : MonoBehaviour
     private Health health;
 
     private float moveDirection;
-    public bool is_touching_wall;
-    public bool isGrounded;
+    
+    
 
 
     private bool isJumping;
@@ -45,6 +45,9 @@ public class PlayerBehaviour : MonoBehaviour
     private float recoilTimer;
     public static PlayerBehaviour instance;
     private Vector3 CurrentRespawnPoint;
+    public bool isGrounded;
+    public bool is_touching_wall;
+    private bool isRespawming = false;
 
     [Header("Respawn Point")]
     [SerializeField] private int HazardDamage = 2;
@@ -74,7 +77,7 @@ public class PlayerBehaviour : MonoBehaviour
     private void Start()
     {
         CurrentRespawnPoint = transform.position;
-        if (GameManager.Instance == null)
+        if (GameManager.Instance != null)
         {
             GameManager.Instance.InputManager.OnJump += HandleJump;
             GameManager.Instance.InputManager.OnJumpUp += HandleJumpUpInput; // Pulo variável
@@ -89,6 +92,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void RespawnFromHazard()
     {
+        if (isRespawming) return;
+        isRespawming = true;
+
         if (health != null)
         {
             health.TakeDamage(HazardDamage);
@@ -96,7 +102,21 @@ public class PlayerBehaviour : MonoBehaviour
 
         rigidbody.linearVelocity = Vector2.zero;
 
+        Level_crossfade fader = FindFirstObjectByType<Level_crossfade>();
+        if (fader != null)
+        {
+            fader.RespawnFade(this);
+        }
+        else
+        {
+            TeleportToRespawn();
+        }
+    }
+    public void TeleportToRespawn()
+    {
+        rigidbody.linearVelocity = Vector2.zero;
         transform.position = CurrentRespawnPoint;
+        isRespawming = false;
     }
 
     private void Update()

@@ -18,7 +18,7 @@ public class Level_crossfade : MonoBehaviour
         StartCoroutine(FadeIn());
     }
 
-    public void LoadScene(string scene_name)
+    public void LoadScene(string scene_name) 
     {
         StartCoroutine(TransitionSequence(scene_name));
     }
@@ -55,5 +55,18 @@ public class Level_crossfade : MonoBehaviour
         }
         Fade_canvas_group.alpha = 0f;
         Fade_canvas_group.blocksRaycasts = false;
+    }
+
+    public void RespawnFade(PlayerBehaviour player)
+    {
+        StartCoroutine(RespawnSequence(player));
+    }
+
+    IEnumerator RespawnSequence(PlayerBehaviour player)
+    {
+        yield return StartCoroutine(FadeOut());
+        player.TeleportToRespawn();
+        yield return new WaitForSeconds(0.2f); // Wait one frame for the respawn to complete
+        yield return StartCoroutine(FadeIn());
     }
 }
