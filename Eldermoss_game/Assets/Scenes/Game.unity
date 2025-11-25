@@ -730,7 +730,7 @@ MonoBehaviour:
   attackPosition: {fileID: 875843950}
   attackLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!212 &594467545
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1924,6 +1924,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 308603276}
     m_Modifications:
+    - target: {fileID: 4072807945532388550, guid: 0ae20fd33da375444a14c93959997e62, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6110445708337093195, guid: 0ae20fd33da375444a14c93959997e62, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.44687244
@@ -1967,6 +1971,14 @@ PrefabInstance:
     - target: {fileID: 8841310252657031029, guid: 0ae20fd33da375444a14c93959997e62, type: 3}
       propertyPath: m_Name
       value: EnemyGoblin
+      objectReference: {fileID: 0}
+    - target: {fileID: 8841310252657031029, guid: 0ae20fd33da375444a14c93959997e62, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027806190866568405, guid: 0ae20fd33da375444a14c93959997e62, type: 3}
+      propertyPath: playerLayer.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
