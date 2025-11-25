@@ -184,6 +184,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 308603276}
     m_Modifications:
+    - target: {fileID: 4072807945532388550, guid: 0ae20fd33da375444a14c93959997e62, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6110445708337093195, guid: 0ae20fd33da375444a14c93959997e62, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.71312755
@@ -228,6 +232,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyGoblin (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8841310252657031029, guid: 0ae20fd33da375444a14c93959997e62, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -242,7 +250,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 308603276}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ENEMY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -954,8 +962,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf1e1bf0918afc45a9eb9c66eda306f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emptyHeart: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  fullHeart: {fileID: 21300000, guid: 05f67270eed774d458305d46c391fd99, type: 3}
+  emptyRunes: []
+  fullRunes: []
   hearts:
   - {fileID: 666590652}
   - {fileID: 768619192}
