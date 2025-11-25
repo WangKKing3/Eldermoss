@@ -948,7 +948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4130aaeceee78e44c894e1d8a85357bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLives: 6
+  maxLives: 5
   lives: 5
 --- !u!114 &594467553
 MonoBehaviour:
@@ -975,12 +975,11 @@ MonoBehaviour:
   - {fileID: 4392813486917557774, guid: 79354a98865edbb49a071d2e79e74e81, type: 3}
   - {fileID: -3169894064269132735, guid: eda7ccab263dab54bae401eec5890305, type: 3}
   hearts:
-  - {fileID: 666590652}
   - {fileID: 768619192}
   - {fileID: 746033757}
   - {fileID: 1559471530}
   - {fileID: 1241015103}
-  - {fileID: 1241015103}
+  - {fileID: 1773994850}
   playerHealth: {fileID: 594467552}
 --- !u!1 &619394800
 GameObject:
