@@ -15,19 +15,23 @@ public class Level_changer : MonoBehaviour
 
     private void Start()
     {
-        if (_Connections == Level_connections.ActiveConnection)
+        var player = FindFirstObjectByType<PlayerBehaviour>();
+        var Respawner = FindFirstObjectByType<Death_respawn_manager>();
+        if (Respawner != null && Respawner.Respawning_at_bench)
         {
-            var player = FindFirstObjectByType<PlayerBehaviour>();
-
-            if (player != null && _spawn_point != null)
-            {
-                // 1. Move the player
-                player.transform.position = _spawn_point.position;
-
-                // 2. UPDATE THE RESPAWN POINT HERE!
-                player.SetRespawnPoint(_spawn_point.position);
-            }
+            return;
         }
+            if (_Connections == Level_connections.ActiveConnection)
+            {
+                if (player != null && _spawn_point != null)
+                {
+                    // 1. Move the player
+                    player.transform.position = _spawn_point.position;
+
+                    // 2. UPDATE THE RESPAWN POINT HERE!
+                    player.SetRespawnPoint(_spawn_point.position);
+                }
+            }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

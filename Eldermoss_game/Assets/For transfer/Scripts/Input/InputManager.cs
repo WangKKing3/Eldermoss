@@ -39,4 +39,8 @@ public class InputManager
     {
         playerControls.Gameplay.Disable();
     }
+    public void EnablePlayerInput()
+    {
+        playerControls.Gameplay.Enable();
+    }
 }

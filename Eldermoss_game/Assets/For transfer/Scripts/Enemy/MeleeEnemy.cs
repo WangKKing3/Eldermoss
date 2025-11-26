@@ -22,7 +22,7 @@ public class MeleeEnemy : BaseEnemy
     {
         if (isRecoiling) return;
         cooldownTimer += Time.deltaTime;
-        print("is in sight? " + PlayerInSight());
+        //print("is in sight? " + PlayerInSight());
         VerifyCanAttack();
     }
 
@@ -44,7 +44,7 @@ public class MeleeEnemy : BaseEnemy
         cooldownTimer = 0f;
         if (CheckPlayerInDetectArea().TryGetComponent(out Health playerHealth))
         {
-            print("Making Player Take Damage");
+            //print("Making Player Take Damage");
             playerHealth.TakeDamage();
         }
     }

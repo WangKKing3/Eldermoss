@@ -48,6 +48,7 @@ public class PlayerBehaviour : MonoBehaviour
     public bool isGrounded;
     public bool is_touching_wall;
     private bool isRespawming = false;
+    private bool dead = false;
 
     [Header("Respawn Point")]
     [SerializeField] private int HazardDamage = 2;
@@ -76,6 +77,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Start()
     {
+        dead = false;   
         CurrentRespawnPoint = transform.position;
         if (GameManager.Instance != null)
         {
@@ -98,6 +100,10 @@ public class PlayerBehaviour : MonoBehaviour
         if (health != null)
         {
             health.TakeDamage(HazardDamage);
+        }
+        if (dead)
+        {
+            return;
         }
 
         rigidbody.linearVelocity = Vector2.zero;
@@ -210,7 +216,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void HandleJump()
     {
-        
+        if (this == null || gameObject == null) return;
         //GameManager.Instance.AudioManager.PlaySFX(SFX.PlayerJump);
         //rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         //rigidbody.linearVelocity += Vector2.up * jumpForce;
@@ -220,6 +226,7 @@ public class PlayerBehaviour : MonoBehaviour
     private void HandleJumpUpInput()
     {
         // Soltou o botão: Cancela a subida forçada
+        if (this == null || gameObject == null) return;
         isJumping = false;
         
         // Se ainda estiver subindo muito rápido, corta a velocidade (Pulo Curto)
@@ -303,6 +310,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Attack()
     {
+        if (this == null || gameObject == null) return;
         GameManager.Instance.AudioManager.PlaySFX(SFX.PlayerAttack);
 
         Collider2D[] hittedEnemies = Physics2D.OverlapCircleAll(attackPosition.position, attackRange, attackLayer);
@@ -340,13 +348,42 @@ public class PlayerBehaviour : MonoBehaviour
             }
         }
     }
+    public void RevivePlayer()
+    {
+        dead = false;
+        isRespawming = false;
+        //GetComponent<Collider2D>().enabled = true;
+        //rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        print("Player Revived");
+        //if (Instance != null) Destroy(this.gameObject);
+        //Instance = this;
+
+        //InputManager = new InputManager();
+        //if (GameManager.Instance != null)
+        //{
+        //    GameManager.Instance.InputManager.EnablePlayerInput();
+        //}
+    }
+
 
     private void HandlePlayerDeath()
     {
-        GetComponent<Collider2D>().enabled = false;
+        dead = true;
+        //GetComponent<Collider2D>().enabled = false;
         GameManager.Instance.AudioManager.PlaySFX(SFX.PlayerDeath);
-        rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
-        GameManager.Instance.InputManager.DisablePlayerInput();
+        //rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+        //GameManager.Instance.InputManager.DisablePlayerInput();
+        Death_respawn_manager Respawner = GetComponent<Death_respawn_manager>();
+        
+        if (Respawner != null)
+        {
+            Debug.LogWarning("Calling Respawn from Death_respawn_manager.");
+            Respawner.Death();
+        }
+        else
+        {
+            Debug.LogWarning("Death_respawn_manager component not found on Player.");
+        }
     }
 
     private void FlipSpriteAccordingToMoveDirection()
@@ -362,14 +399,24 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
     private void OnDisable()
-{
-    // We check if GameManager exists first to avoid errors when quitting the game
-    if (GameManager.Instance != null && GameManager.Instance.InputManager != null)
     {
-        GameManager.Instance.InputManager.OnJump -= HandleJump;       // Note the minus sign (-=)
-        GameManager.Instance.InputManager.OnJumpUp -= HandleJumpUpInput;
-        GameManager.Instance.InputManager.OnAttack -= Attack;
+        // We check if GameManager exists first to avoid errors when quitting the game
+        if (GameManager.Instance != null && GameManager.Instance.InputManager != null)
+        {
+            GameManager.Instance.InputManager.OnJump -= HandleJump;       // Note the minus sign (-=)
+            GameManager.Instance.InputManager.OnJumpUp -= HandleJumpUpInput;
+            GameManager.Instance.InputManager.OnAttack -= Attack;
+        }
     }
-}
+    private void OnDestroy()
+    {
+        // Double-check: If the object is deleted, FORCE unsubscribe
+        if (GameManager.Instance != null && GameManager.Instance.InputManager != null)
+        {
+            GameManager.Instance.InputManager.OnJump -= HandleJump;
+            GameManager.Instance.InputManager.OnJumpUp -= HandleJumpUpInput;
+            GameManager.Instance.InputManager.OnAttack -= Attack;
+        }
+    }
 
 }

@@ -31,7 +31,7 @@ public class Level_crossfade : MonoBehaviour
         yield return StartCoroutine(FadeIn());
     }
 
-    IEnumerator FadeOut()
+    public IEnumerator FadeOut()
     {
         Fade_canvas_group.blocksRaycasts = true;
         float timer = 0f;
@@ -44,7 +44,7 @@ public class Level_crossfade : MonoBehaviour
         Fade_canvas_group.alpha = 1f;
     }
 
-    IEnumerator FadeIn()
+    public IEnumerator FadeIn()
     {
         float timer = 0f;
         while (timer <= fade_time)
