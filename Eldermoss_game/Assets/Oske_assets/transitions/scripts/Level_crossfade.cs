@@ -12,7 +12,6 @@ public class Level_crossfade : MonoBehaviour
     {
            
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         StartCoroutine(FadeIn());
@@ -27,7 +26,7 @@ public class Level_crossfade : MonoBehaviour
     {
         yield return StartCoroutine(FadeOut());
         SceneManager.LoadScene(scene_name);
-        yield return new WaitForSeconds(0.1f); // Wait one frame for the scene to load
+        yield return new WaitForSeconds(0.1f); 
         yield return StartCoroutine(FadeIn());
     }
 
@@ -66,7 +65,7 @@ public class Level_crossfade : MonoBehaviour
     {
         yield return StartCoroutine(FadeOut());
         player.TeleportToRespawn();
-        yield return new WaitForSeconds(0.2f); // Wait one frame for the respawn to complete
+        yield return new WaitForSeconds(0.2f); 
         yield return StartCoroutine(FadeIn());
     }
 }

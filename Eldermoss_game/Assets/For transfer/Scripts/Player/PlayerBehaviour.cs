@@ -17,7 +17,7 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private float maxFallSpeed = 25f;
 
     [Header("Double Jump")]
-    [SerializeField] private bool unlockDoubleJump = true;
+    [SerializeField] public bool unlockDoubleJump = true;
 
     [Header("Assists")]
     [SerializeField] private float coyoteTime = 0.15f;

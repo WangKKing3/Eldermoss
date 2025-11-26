@@ -21,24 +21,16 @@ public class Scene_transition : MonoBehaviour
 
     private IEnumerator LoadSceneAndPlacePlayer(GameObject player)
     {
-        // Optional: add fade out effect here
-
-        // Load the next scene asynchronously
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(next_scene);
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
-
-        // Find the PlayerStart in the new scene
         GameObject startPoint = GameObject.Find("Player_start");
         if (startPoint != null)
         {
             player.transform.position = startPoint.transform.position;
         }
-
-        // Optional: add fade in effect here
-
         triggered = false;
     }
 }
