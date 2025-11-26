@@ -6,14 +6,18 @@ public class PlayerBehaviour : MonoBehaviour
 {
     [Header("Movement Stats")]
     [SerializeField] private float moveSpeed = 10f;
-    //[SerializeField] private float jumpForce = 16f;
-    //[SerializeField] private float acceleration = 50f;
+    [SerializeField] private float acceleration = 7f;
+    [SerializeField] private float deceleration = 7f;
 
     [Header("Jump System")]
-    [SerializeField] private float jumpSpeed = 12f;         // Velocidade de subida constante
-    [SerializeField] private int jumpStepsMax = 12;         // Quantos frames dura o impulso se segurar
-    [SerializeField] private float minJumpSpeed = 5f;       // Velocidade mínima se soltar o botão rápido
-    [SerializeField] private float maxFallSpeed = 25f;      // Velocidade terminal de queda
+    [SerializeField] private float jumpForce = 20f;
+    [SerializeField] private float doubleJumpForce = 18f;
+    [SerializeField] private float fallGravityMult = 2.5f;
+    [SerializeField] private float jumpCutGravityMult = 5f;
+    [SerializeField] private float maxFallSpeed = 25f;
+
+    [Header("Double Jump")]
+    [SerializeField] private bool unlockDoubleJump = true;
 
     [Header("Assists")]
     [SerializeField] private float coyoteTime = 0.15f;
@@ -33,12 +37,13 @@ public class PlayerBehaviour : MonoBehaviour
     private IsGroundedChecker isGroundedChecker;
     private Health health;
 
-    private float moveDirection;
+    private float moveImput;
 
     private bool isJumping;
-    private int jumpSteps;
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
+    private float defaultGravityScale;
+    private bool canDoubleJump; //double jump flag
     private float recoilTimer;
 
     public static PlayerBehaviour instance;
@@ -54,14 +59,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
-        isGroundedChecker = GetComponent<IsGroundedChecker>();
-        rigidbody.gravityScale = 3f;
-        rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-        
-        health = GetComponent<Health>();
-        health.OnDead += HandlePlayerDeath;
-        health.OnHurt += PlayerHurtSound;
         if (instance == null)
         {
             instance = this;
@@ -70,7 +67,18 @@ public class PlayerBehaviour : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
+
+        rigidbody = GetComponent<Rigidbody2D>();
+        isGroundedChecker = GetComponent<IsGroundedChecker>();
+        defaultGravityScale = rigidbody.gravityScale;
+        rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        
+        health = GetComponent<Health>();
+        health.OnDead += HandlePlayerDeath;
+        health.OnHurt += PlayerHurtSound;
+        
     }
 
     private void Start()
@@ -79,9 +87,74 @@ public class PlayerBehaviour : MonoBehaviour
         CurrentRespawnPoint = transform.position;
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.InputManager.OnJump += HandleJump;
-            GameManager.Instance.InputManager.OnJumpUp += HandleJumpUpInput; // Pulo variável
+            GameManager.Instance.InputManager.OnJump += HandleJumpInput;
             GameManager.Instance.InputManager.OnAttack += Attack;
+        }
+    }
+
+    private void Update()
+    {
+        // Timers
+        if (recoilTimer > 0) recoilTimer -= Time.deltaTime;
+        if (jumpBufferCounter > 0) jumpBufferCounter -= Time.deltaTime;
+
+        moveImput = GameManager.Instance.InputManager.Movement;
+
+        // Coyote Time
+        if (isGroundedChecker.IsGrounded())
+        {
+            coyoteTimeCounter = coyoteTime;           
+            canDoubleJump = true; // Reseta double jump ao tocar no chão
+
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        
+        FlipSpriteAccordingTomoveImput();
+
+
+    }
+
+    private void FixedUpdate()
+    {
+        if(dead) return; //test, may be removed later
+
+        // Se estiver em recuo de dano/ataque, a física inercial assume
+        if (recoilTimer > 0) return;
+
+        // 1. Movimento Horizontal Instantâneo
+        float targetSpeed = moveImput * moveSpeed;
+        float speedDif = targetSpeed - rigidbody.linearVelocity.x;
+        float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
+        float movement = speedDif * accelRate;
+
+        rigidbody.AddForce(movement * Vector2.right, ForceMode2D.Force);
+
+        if (rigidbody.linearVelocity.y < 0)
+        {
+            rigidbody.gravityScale = defaultGravityScale * fallGravityMult;
+            
+            // Limitador de velocidade de queda (Terminal Velocity)
+            rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, Mathf.Max(rigidbody.linearVelocity.y, -maxFallSpeed));
+        }
+
+        else if (rigidbody.linearVelocity.y > 0 && !GameManager.Instance.InputManager.IsJumpHeld)
+        {
+            rigidbody.gravityScale = defaultGravityScale * jumpCutGravityMult;
+        }
+        // Caso C: Subindo normal ou no chão
+        else
+        {
+            rigidbody.gravityScale = defaultGravityScale;
+        }
+        
+        // Verifica e executa o pulo se houver buffer
+        if (jumpBufferCounter > 0)
+        {
+            TryJump();
         }
     }
 
@@ -122,145 +195,47 @@ public class PlayerBehaviour : MonoBehaviour
         transform.position = CurrentRespawnPoint;
         isRespawming = false;
     }
+   
 
-    private void Update()
+    private void HandleJumpInput()
     {
-        // Timers
-        if (recoilTimer > 0) recoilTimer -= Time.deltaTime;
-        if (jumpBufferCounter > 0) jumpBufferCounter -= Time.deltaTime;
-
-        // Coyote Time
-        if (isGroundedChecker.IsGrounded())
-        {
-            coyoteTimeCounter = coyoteTime;
-            isJumping = false; // Reseta estado ao tocar no chão
-            if (rigidbody.linearVelocity.y < -0.01f)
-            {
-                // Note que o FixedUpdate pode estar agindo na mesma velocidade,
-                // mas é seguro zerar aqui para garantir o ponto de partida 0.
-                rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, 0f);
-            }
-        }
-        else
-        {
-            coyoteTimeCounter -= Time.deltaTime;
-        }
-
-        // Tenta iniciar o pulo (Buffer + Coyote)
-        if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f && recoilTimer <= 0)
-        {
-            StartJump();
-        }
-
-        // Input de Movimento
-        if (recoilTimer <= 0)
-        {
-            moveDirection = GameManager.Instance.InputManager.Movement;
-            FlipSpriteAccordingToMoveDirection();
-        }
-        else
-        {
-            moveDirection = 0;
-        } 
-
-    }
-
-        private void FixedUpdate()
-    {
-        // Se estiver em recuo de dano/ataque, a física inercial assume
-        if (recoilTimer > 0) return;
-
-        // 1. Movimento Horizontal Instantâneo
-        float targetSpeed = moveDirection * moveSpeed;
-        float currentVerticalSpeed = rigidbody.linearVelocity.y;
-
-        // 2. Lógica de Pulo por Passos (Frame a Frame)
-        if (isJumping)
-        {
-            // Enquanto tiver "combustível" (steps) e o botão estiver apertado
-            if (jumpSteps > 0 && GameManager.Instance.InputManager.IsJumpHeld)
-            {
-                // Força a velocidade para cima, ignorando gravidade temporariamente
-                currentVerticalSpeed = jumpSpeed;
-                jumpSteps--;
-            }
-            else
-            {
-                // Acabaram os passos ou soltou o botão -> Deixa a gravidade agir
-                isJumping = false;
-            }
-        }
-
-        // 3. Limite de Velocidade de Queda (Terminal Velocity)
-        if (currentVerticalSpeed < -maxFallSpeed)
-        {
-            currentVerticalSpeed = -maxFallSpeed;
-        }
-
-        // Aplica a velocidade final
-        rigidbody.linearVelocity = new Vector2(targetSpeed, currentVerticalSpeed);
-    }
-
-    private void StartJump()
-    {   
-        GameManager.Instance.AudioManager.PlaySFX(SFX.PlayerJump);
         
-        if (isGroundedChecker.IsGrounded() == false) return;
-
-        isJumping = true;
-        jumpSteps = jumpStepsMax; // Recarrega os passos
-        
-        // Impulso inicial
-        rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, jumpSpeed);
-
-        // Reseta timers para não pular duas vezes
-        jumpBufferCounter = 0f;
-        coyoteTimeCounter = 0f;
-    }
-
-    private void HandleJump()
-    {
         if (this == null || gameObject == null) return;
-        //GameManager.Instance.AudioManager.PlaySFX(SFX.PlayerJump);
-        //rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        //rigidbody.linearVelocity += Vector2.up * jumpForce;
+        GameManager.Instance.AudioManager.PlaySFX(SFX.PlayerJump);
         jumpBufferCounter = jumpBufferTime;
     }
 
-    private void HandleJumpUpInput()
+    private void TryJump()
     {
-        // Soltou o botão: Cancela a subida forçada
-        if (this == null || gameObject == null) return;
-        isJumping = false;
-        
-        // Se ainda estiver subindo muito rápido, corta a velocidade (Pulo Curto)
-        if (rigidbody.linearVelocity.y > minJumpSpeed)
+        // 1. Pulo Normal (No chão ou Coyote Time)
+        if (coyoteTimeCounter > 0f)
         {
-            rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, minJumpSpeed);
+            PerformJump(jumpForce);
+            coyoteTimeCounter = 0f; // Consome o coyote time
+            jumpBufferCounter = 0f; // Consome o buffer
+        }
+        // 2. Pulo Duplo (No ar e permitido)
+        else if (unlockDoubleJump && canDoubleJump)
+        {
+            PerformJump(doubleJumpForce);
+            canDoubleJump = false; // Gasta o pulo duplo
+            jumpBufferCounter = 0f; // Consome o buffer
+            
+            // Opcional: Efeito visual ou som de Double Jump aqui
         }
     }
 
-
-
-    private void MovePlayer()
+    private void PerformJump(float force)
     {
+        // Zera a velocidade Y para o pulo ser consistente
+        rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, 0f);
         
-        /*Vector2 vectorMoveDirection = new Vector2(moveDirection, rigidbody.linearVelocity.y);
-        rigidbody.linearVelocity = vectorMoveDirection * moveSpeed;*/
-        float targetSpeed = moveDirection * moveSpeed;
-        //float speedDif = targetSpeed - rigidbody.linearVelocity.x;
-        //float force = speedDif * acceleration * Time.fixedDeltaTime;
-        //rigidbody.AddForce(Vector2.right * force, ForceMode2D.Force);
-        rigidbody.linearVelocity = new Vector2(targetSpeed, rigidbody.linearVelocity.y);
+        // Aplica força instantânea
+        rigidbody.AddForce(Vector2.up * force, ForceMode2D.Impulse);
         
+        GameManager.Instance.AudioManager.PlaySFX(SFX.PlayerJump);
     }
-        
-    
-
-
-
-
-
+       
     
     private void PlayerHurtSound()
     {
@@ -268,48 +243,18 @@ public class PlayerBehaviour : MonoBehaviour
     }
     
 
-    
-
-    
-
     private void PlayWalkSound()
     {
         GameManager.Instance.AudioManager.PlaySFX(SFX.PlayerWalk);
     }
 
-    private void RecoilTimer()
+private void ApplyRecoil()
     {
-       // Timers
-        if (recoilTimer > 0) recoilTimer -= Time.deltaTime;
-        if (jumpBufferCounter > 0) jumpBufferCounter -= Time.deltaTime;
-
-        // Coyote Time
-        if (isGroundedChecker.IsGrounded())
-        {
-            coyoteTimeCounter = coyoteTime;
-            isJumping = false; // Reseta estado ao tocar no chão
-        }
-        else
-        {
-            coyoteTimeCounter -= Time.deltaTime;
-        }
-
-        // Tenta iniciar o pulo (Buffer + Coyote)
-        if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f && recoilTimer <= 0)
-        {
-            StartJump();
-        }
-
-        // Input de Movimento
-        if (recoilTimer <= 0)
-        {
-            moveDirection = GameManager.Instance.InputManager.Movement;
-            FlipSpriteAccordingToMoveDirection();
-        }
-        else
-        {
-            moveDirection = 0;
-        }
+        recoilTimer = recoilDuration;
+        int direction = transform.localScale.x > 0 ? -1 : 1;
+        
+        rigidbody.linearVelocity = Vector2.zero; // Para o movimento atual
+        rigidbody.AddForce(new Vector2(direction * selfRecoilForce, 0), ForceMode2D.Impulse);
     }
 
     private void Attack()
@@ -391,10 +336,10 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    private void FlipSpriteAccordingToMoveDirection()
+    private void FlipSpriteAccordingTomoveImput()
     {  
-        if (moveDirection < 0) transform.localScale = new Vector3(-1, 1, 1);
-        else if (moveDirection > 0) transform.localScale = new Vector3(1, 1, 1);
+        if (moveImput < 0) transform.localScale = new Vector3(-1, 1, 1);
+        else if (moveImput > 0) transform.localScale = new Vector3(1, 1, 1);
     }
 
     private void OnDrawGizmos()
@@ -408,8 +353,7 @@ public class PlayerBehaviour : MonoBehaviour
         // We check if GameManager exists first to avoid errors when quitting the game
         if (GameManager.Instance != null && GameManager.Instance.InputManager != null)
         {
-            GameManager.Instance.InputManager.OnJump -= HandleJump;       // Note the minus sign (-=)
-            GameManager.Instance.InputManager.OnJumpUp -= HandleJumpUpInput;
+            GameManager.Instance.InputManager.OnJumpUp -= HandleJumpInput;
             GameManager.Instance.InputManager.OnAttack -= Attack;
         }
     }
@@ -418,8 +362,8 @@ public class PlayerBehaviour : MonoBehaviour
         // Double-check: If the object is deleted, FORCE unsubscribe
         if (GameManager.Instance != null && GameManager.Instance.InputManager != null)
         {
-            GameManager.Instance.InputManager.OnJump -= HandleJump;
-            GameManager.Instance.InputManager.OnJumpUp -= HandleJumpUpInput;
+
+            GameManager.Instance.InputManager.OnJumpUp -= HandleJumpInput;
             GameManager.Instance.InputManager.OnAttack -= Attack;
         }
     }
