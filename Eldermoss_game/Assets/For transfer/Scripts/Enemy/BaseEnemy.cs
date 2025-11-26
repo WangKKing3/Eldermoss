@@ -1,6 +1,6 @@
 using System.Collections;
 using Unity.VisualScripting;
-using UnityEditor.Animations;
+// using UnityEditor.Animations; 
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -13,7 +13,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected bool canAttack = true;
     protected bool isRecoiling = false;
 
-    
+
 
     protected virtual void Awake()
     {
@@ -24,8 +24,8 @@ public abstract class BaseEnemy : MonoBehaviour
 
         health.OnHurt += PlayHurtAnim;
         health.OnDead += HandleDeath;
-        
-        
+
+
     }
 
     protected abstract void Update();
@@ -36,7 +36,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
         // Para a lógica de movimento da IA
         isRecoiling = true;
-        
+
         // Zera velocidade atual e aplica impacto
         rb.linearVelocity = Vector2.zero;
         rb.AddForce(direction * force, ForceMode2D.Impulse);
@@ -56,7 +56,7 @@ public abstract class BaseEnemy : MonoBehaviour
     private void PlayHurtAnim() => animator.SetTrigger("hurt");
 
     private void HandleDeath()
-    {   
+    {
         canAttack = false;
         rb.linearVelocity = Vector2.zero;
         GetComponent<Collider2D>().enabled = false;
