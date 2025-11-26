@@ -12,12 +12,23 @@ public class Health : MonoBehaviour
 
     public event Action OnDead;
     public event Action OnHurt;
+    public event Action OnHeal;
     public void TakeDamage(int damage = 1)
     {
         lives -= damage;
         HandleDamageTaken();
     }
 
+    public void StealHealth()
+    {
+        OnHeal?.Invoke();
+        lives ++;
+        if(lives > maxLives)
+        {
+            lives = maxLives;
+            
+    }
+    }
     private void HandleDamageTaken()
     {
 
@@ -40,7 +51,7 @@ public class Health : MonoBehaviour
         }
 
         
-}
+    }
     void Start()
     {
         
@@ -57,4 +68,5 @@ public class Health : MonoBehaviour
     {
         lives = maxLives;
     }
+
 }

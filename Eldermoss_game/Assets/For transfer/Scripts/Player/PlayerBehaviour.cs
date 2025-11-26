@@ -34,15 +34,13 @@ public class PlayerBehaviour : MonoBehaviour
     private Health health;
 
     private float moveDirection;
-    
-    
-
 
     private bool isJumping;
     private int jumpSteps;
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
     private float recoilTimer;
+
     public static PlayerBehaviour instance;
     private Vector3 CurrentRespawnPoint;
     public bool isGrounded;
@@ -136,6 +134,12 @@ public class PlayerBehaviour : MonoBehaviour
         {
             coyoteTimeCounter = coyoteTime;
             isJumping = false; // Reseta estado ao tocar no chão
+            if (rigidbody.linearVelocity.y < -0.01f)
+            {
+                // Note que o FixedUpdate pode estar agindo na mesma velocidade,
+                // mas é seguro zerar aqui para garantir o ponto de partida 0.
+                rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, 0f);
+            }
         }
         else
         {
@@ -343,6 +347,7 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     print("ENEMY TAKING DAMAGE");
                     enemyHealth.TakeDamage();
+                    health.StealHealth();
                 }
                 
             }

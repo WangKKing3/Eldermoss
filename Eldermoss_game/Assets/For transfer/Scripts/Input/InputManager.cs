@@ -5,27 +5,27 @@ public class InputManager
 {
     private PlayerControls playerControls;
 
-    // Properties for å lese input
+    
     public float Movement => playerControls.Gameplay.Movement.ReadValue<float>();
     public bool IsJumpHeld => playerControls.Gameplay.Jump.ReadValue<float>() > 0;
 
-    // Events for å signalisere handlinger
+    
     public event Action OnJump;
     public event Action OnAttack;
+    public event Action OnAttack2;
     public event Action OnJumpUp;
 
     public InputManager()
     {
         playerControls = new PlayerControls();
-        playerControls.Gameplay.Enable(); // Aktiveres ved oppstart
+        playerControls.Gameplay.Enable(); 
 
-        // Kobler input actions til private event-handlere (må være i samme klasse!)
+        
         playerControls.Gameplay.Jump.performed += OnJumpPerformed;
         playerControls.Gameplay.Attack.performed += OnAttackPerformed;
+        playerControls.Gameplay.Attack2.performed += OnAttack2Performed;
         playerControls.Gameplay.Jump.canceled += OnJumpCanceled;
     }
-
-    // --- PRIVATE HANDLERE (Kalt av Unity Input System) ---
 
     private void OnJumpPerformed(InputAction.CallbackContext context)
     {
@@ -41,18 +41,21 @@ public class InputManager
     {
         OnAttack?.Invoke();
     }
-
-    // --- OFFENTLIGE KONTROLL-FUNKSJONER (Kalt av PauseMenu/Health) ---
+    private void OnAttack2Performed(InputAction.CallbackContext obj)
+    {
+        OnAttack2?.Invoke();
+    }
+    
 
     public void DisablePlayerInput()
     {
-        // Deaktiverer Action Map når spillet pauser eller dør
+        
         playerControls.Gameplay.Disable();
     }
 
     public void EnablePlayerInput()
     {
-        // Aktiverer Action Map når spillet fortsetter
+        
         playerControls.Gameplay.Enable();
     }
 }
