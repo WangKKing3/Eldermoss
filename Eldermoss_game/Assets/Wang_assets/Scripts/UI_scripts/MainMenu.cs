@@ -13,21 +13,29 @@ public class MainMenu : MonoBehaviour
     {
         LoadVolume();
         MusicManager.Instance.PlayMusic("MainMenu");
+
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.PlayMusic("MainMenu");
+        }
     }
 
     public void Play()
     {
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.PlayMusic("ForestTheme");
+        }
+
         SceneManager.LoadScene("Game");
-        MusicManager.Instance.PlayMusic("Game");
+
     }
 
     public void Quit()
     {
         Application.Quit();
+        Debug.Log("Quit!"); 
     }
-
-
-
 
 
     public void UpdateMusicVolume(float volume)
