@@ -32,28 +32,23 @@ public class PlayerAnim : MonoBehaviour
     private void PlayDeadAnim()
     {
         animator.SetTrigger("dead");
-        respawn_anim();
     }
 
     private void PlayAttackAnim()
     {
         animator.SetTrigger("attack");
     }
-    private void respawn_anim()
+    private void Respawn_anim()
     {
         animator.SetTrigger("respawn");
     }
     private void OnDisable()
     {
-        // 1. Unsubscribe from Health (Local component)
         if (playerHealth != null)
         {
             playerHealth.OnHurt -= PlayHurtAnim;
             playerHealth.OnDead -= PlayDeadAnim;
         }
-
-        // 2. Unsubscribe from Input Manager (Global component)
-        // This is the critical one causing your crash!
         if (GameManager.Instance != null && GameManager.Instance.InputManager != null)
         {
             GameManager.Instance.InputManager.OnAttack -= PlayAttackAnim;
@@ -62,7 +57,6 @@ public class PlayerAnim : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Double safety check
         if (GameManager.Instance != null && GameManager.Instance.InputManager != null)
         {
             GameManager.Instance.InputManager.OnAttack -= PlayAttackAnim;

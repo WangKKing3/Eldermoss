@@ -52,5 +52,29 @@ TagManager:
   - name: behind_main_land
     uniqueID: 719320989
     locked: 0
+  - name: 1
+    uniqueID: 4220457637
+    locked: 0
+  - name: 2
+    uniqueID: 771922115
+    locked: 0
+  - name: 3
+    uniqueID: 2028860353
+    locked: 0
+  - name: Player
+    uniqueID: 4120681477
+    locked: 0
+  - name: 4
+    uniqueID: 4228795253
+    locked: 0
+  - name: 5
+    uniqueID: 2929061661
+    locked: 0
+  - name: 6
+    uniqueID: 3037153209
+    locked: 0
+  - name: 7
+    uniqueID: 1703615943
+    locked: 0
   m_RenderingLayers:
   - Default

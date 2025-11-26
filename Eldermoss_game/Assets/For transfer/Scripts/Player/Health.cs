@@ -3,7 +3,12 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] public int lives;
+    [SerializeField] private int lives;
+    [SerializeField] private int maxLives = 5;
+
+    public int CurrentLives => lives;
+    public int MaxLives => maxLives;
+
 
     public event Action OnDead;
     public event Action OnHurt;
@@ -46,8 +51,10 @@ public class Health : MonoBehaviour
     {
         
     }
+
+   
     public void HealthFull()
     {
-        lives = 5;
+        lives = maxLives;
     }
 }
