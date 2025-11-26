@@ -7,10 +7,20 @@ public class Health : MonoBehaviour
 
     public event Action OnDead;
     public event Action OnHurt;
+    public event Action OnHeal;
     public void TakeDamage()
     {
         lives--;
         HandleDamageTaken();
+    }
+
+    public void StealHealth()
+    {
+       
+        OnHeal?.Invoke();
+        lives ++;
+        
+            
     }
 
     private void HandleDamageTaken()

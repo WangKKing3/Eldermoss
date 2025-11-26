@@ -265,13 +265,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectPosition: {fileID: 3685304677047400817}
   chasePosition: {fileID: 6835794973582638631}
-  detectBoxSize: {x: 0.39, y: 0.55}
+  detectBoxSize: {x: 0.3, y: 0.55}
   chaseBoxSize: {x: 5.33, y: 0.23}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
-  attackCooldown: 1
-  moveSpeed: 3
+  attackCooldown: 2
+  moveSpeed: 1.5
 --- !u!114 &7171952606172378950
 MonoBehaviour:
   m_ObjectHideFlags: 0

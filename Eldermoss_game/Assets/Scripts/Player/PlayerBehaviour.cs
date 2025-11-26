@@ -261,9 +261,11 @@ public class PlayerBehaviour : MonoBehaviour
 
         Collider2D[] hittedEnemies = Physics2D.OverlapCircleAll(attackPosition.position, attackRange, attackLayer);
         print("Hitted Enemies: " + hittedEnemies.Length);
+        
 
         if(hittedEnemies.Length > 0)
         {
+            
             // Aplica Recoil no Player
             recoilTimer = recoilDuration;
             isJumping = false; // Cancela pulo se atacar (opcional, mas bom para pogo)
@@ -289,6 +291,9 @@ public class PlayerBehaviour : MonoBehaviour
                 {
                     print("ENEMY TAKING DAMAGE");
                     enemyHealth.TakeDamage();
+                    health.StealHealth();
+                    
+                    
                 }
                 
             }

@@ -743,7 +743,7 @@ MonoBehaviour:
   selfRecoilForce: 3
   enemyKnockbackForce: 2
   recoilDuration: 0.15
-  attackRange: 0.35
+  attackRange: 0.5
   attackPosition: {fileID: 875843950}
   attackLayer:
     serializedVersion: 2
@@ -944,6 +944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37c72e25374b20a4eb63c39012af1898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxComboDelay: 0.3
 --- !u!114 &594467552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -956,7 +957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4130aaeceee78e44c894e1d8a85357bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lives: 10
+  lives: 5
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
