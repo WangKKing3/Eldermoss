@@ -4964,6 +4964,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyGoblin Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 7068920121591718112, guid: 8b014cedb74fabf4bbd0bf300095f247, type: 3}
+      propertyPath: m_Size.y
+      value: 1.6550001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7068920121591718112, guid: 8b014cedb74fabf4bbd0bf300095f247, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.025008202
+      objectReference: {fileID: 0}
+    - target: {fileID: 7068920121591718112, guid: 8b014cedb74fabf4bbd0bf300095f247, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.49125987
+      objectReference: {fileID: 0}
     - target: {fileID: 7837457226835116632, guid: 8b014cedb74fabf4bbd0bf300095f247, type: 3}
       propertyPath: m_LocalPosition.x
       value: 84.66

@@ -19,7 +19,7 @@ public class MeleeEnemy : BaseEnemy
     
     [Header("Combat Stats")]
     [SerializeField] private float attackCooldown = 1.5f;
-    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float moveSpeed = 5f;
 
     // --- Variáveis de Controle ---
     private float cooldownTimer;
@@ -109,11 +109,29 @@ public class MeleeEnemy : BaseEnemy
             animator.SetBool("chase", true);
 
             // Vira o sprite
-            if (direction.x < 0) transform.localScale = new Vector3(1, 1, 1);
-            else if (direction.x > 0) transform.localScale = new Vector3(-1, 1, 1);
+            FlipTowardsPlayer(direction.x);
         }
         else animator.SetBool("chase", false);
     }
+
+    private void FlipTowardsPlayer(float directionX)
+{
+    // Pega o tamanho absoluto (sem sinal negativo) que você configurou no Inspector
+    float sizeX = Mathf.Abs(transform.localScale.x);
+    float sizeY = transform.localScale.y;
+    float sizeZ = transform.localScale.z;
+
+    if (directionX < 0)
+    {
+        // Olha para a direita (positivo)
+        transform.localScale = new Vector3(sizeX, sizeY, sizeZ);
+    }
+    else if (directionX > 0)
+    {
+        // Olha para a esquerda (negativo)
+        transform.localScale = new Vector3(-sizeX, sizeY, sizeZ);
+    }
+}
 
     private void AttackBehavior()
     {
